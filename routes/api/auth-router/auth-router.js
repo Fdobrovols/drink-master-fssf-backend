@@ -1,55 +1,40 @@
 import express from "express";
 
-import {
-  registerUser,
-  loginUser,
-  logoutUser,
-  getCurrentUser,
-  updateSubscription,
-  updateAvatar,
-  verifyUser,
-  resendVerifyEmail,
-} from "../../../controllers/auth-controllers";
-import { validateBody } from "../../../decorators";
-import {
-  userSignupSchema,
-  userLoginSchema,
-  updateSubscriptionSchema,
-  verifyEmailSchema,
-} from "../../../schemas/users-schemas";
-import { authenticate, upload } from "../../../middlewares";
+import userControllers from "../../../controllers/auth-controllers/index.js";
+import { validateBody } from "../../../decorators/index.js";
+import joiSchemas from "../../../schemas/users-schemas/index.js";
+import { authenticate, upload } from "../../../middlewares/index.js";
 
 const authRouter = express.Router();
 
-authRouter.post("/register", validateBody(userSignupSchema), registerUser);
-
-authRouter.get("/verify/:verificationToken", verifyUser);
-
-const bedRequestBodyMsg = "missing required field email";
 authRouter.post(
-  "/verify",
-  validateBody(verifyEmailSchema, bedRequestBodyMsg),
-  resendVerifyEmail
+  "/register",
+  validateBody(joiSchemas.userSignupSchema),
+  userControllers.registerUser
 );
 
-authRouter.post("/login", validateBody(userLoginSchema), loginUser);
+authRouter.post("/login", validateBody(joiSchemas.userLoginSchema), userControllers.loginUser);
 
-authRouter.post("/logout", authenticate, logoutUser);
+// authRouter.get("/verify/:verificationToken", verifyUser);
 
-authRouter.get("/current", authenticate, getCurrentUser);
+// authRouter.post("/verify", validateBody(verifyEmailSchema, bedRequestBodyMsg), resendVerifyEmail);
+
+authRouter.post("/logout", authenticate, userControllers.logoutUser);
+
+authRouter.get("/current", authenticate, userControllers.getCurrentUser);
 
 authRouter.patch(
-  "/",
+  "/subscribe",
   authenticate,
-  validateBody(updateSubscriptionSchema),
-  updateSubscription
+  validateBody(joiSchemas.updateSubscriptionSchema),
+  userControllers.updateSubscription
 );
 
 authRouter.patch(
   "/avatars",
   authenticate,
   upload.single("avatarURL"),
-  updateAvatar
+  userControllers.updateAvatar
 );
 
 export default authRouter;

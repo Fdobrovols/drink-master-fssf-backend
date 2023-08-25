@@ -1,20 +1,17 @@
 import jwt from "jsonwebtoken";
 
-import { ctrlrWrapper } from "../decorators";
-import { HttpError } from "../helpers";
-import { User } from "../models/user";
+import { ctrlrWrapper } from "../decorators/index.js";
+import { HttpError } from "../helpers/index.js";
+import { User } from "../models/user/index.js";
 
 const { JWT_SECRET } = process.env;
-
-const authErrorStatus = 401;
-const authErrorMessage = "Not authorized";
 
 const authenticate = async (req, _, next) => {
   const { authorization = "" } = req.headers;
   const [bearer, token] = authorization.split(" ");
 
   if (bearer !== "Bearer" || !token) {
-    throw HttpError(authErrorStatus, authErrorMessage);
+    throw HttpError(401);
   }
 
   try {
@@ -22,14 +19,14 @@ const authenticate = async (req, _, next) => {
     const user = await User.findById(id);
 
     if (!user || !user.token) {
-      throw HttpError(authErrorStatus, authErrorMessage);
+      throw HttpError(401);
     }
 
     req.user = user;
     next();
   } catch {
-    throw HttpError(authErrorStatus, authErrorMessage);
+    throw HttpError(401);
   }
 };
 
-export default { authenticate: ctrlrWrapper(authenticate) };
+export default ctrlrWrapper(authenticate);

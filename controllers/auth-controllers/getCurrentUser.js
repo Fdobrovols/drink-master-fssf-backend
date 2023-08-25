@@ -1,11 +1,8 @@
-import { ctrlrWrapper } from "../../decorators";
 
-const successStatus = 200;
+const getCurrentUser = (req, res) => {
+  const { name, email, subscribe } = req.user;
 
-const getCurrentUser = (req, res, next) => {
-  const { email, subscription } = req.user;
-
-  res.status(successStatus).json({ email, subscription });
+  res.json({ name, email, subscribe });
 };
 
-export default { getCurrentUser: ctrlrWrapper(getCurrentUser) };
+export default getCurrentUser

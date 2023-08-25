@@ -1,34 +1,44 @@
 import { Schema, model } from "mongoose";
 
-import { handleUpdateValidate, handleErrorSave } from "../hooks";
-import { emailRegexp } from "../../constants";
+import hooks from "../hooks/index.js";
+import { emailRegexp } from "../../constants/index.js";
 
-const userSchema = new Schema({
-  password: {
-    type: String,
-    required: [true, "Set password for user"],
+const userSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "Set name for user"],
+    },
+    password: {
+      type: String,
+      required: [true, "Set password for user"],
+    },
+    email: {
+      type: String,
+      match: emailRegexp,
+      required: [true, "Email is required"],
+      unique: true,
+    },
+    subscribe: {
+      type: Boolean,
+      default: false,
+    },
+    token: {
+      type: String,
+      default: null,
+    },
+    avatarURL: {
+      type: String,
+      default: null,
+    },
   },
-  email: {
-    type: String,
-    match: emailRegexp,
-    required: [true, "Email is required"],
-    unique: true,
-  },
-  token: { type: String },
-  avatarURL: { type: String },
-  verify: {
-    type: Boolean,
-    default: false,
-  },
-  verificationToken: {
-    type: String,
-  },
-});
+  { versionKey: false, timestamps: true }
+);
 
-userSchema.pre("findOneAndUpdate", handleUpdateValidate);
+userSchema.pre("findOneAndUpdate", hooks.handleUpdateValidate);
 
-userSchema.post("save", handleErrorSave);
-userSchema.post("findOneAndUpdate", handleErrorSave);
+userSchema.post("save", hooks.handleErrorSave);
+userSchema.post("findOneAndUpdate", hooks.handleErrorSave);
 
 const User = model("user", userSchema);
 

@@ -1,3 +1,1 @@
-import emailRegexp from "./email-regexp.js";
-
-export default { emailRegexp };
+export { default as emailRegexp } from "./email-regexp.js";

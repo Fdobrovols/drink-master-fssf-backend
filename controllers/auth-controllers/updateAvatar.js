@@ -1,12 +1,8 @@
 import path from "path";
 import fs from "fs/promises";
 
-import { ctrlrWrapper } from "../../decorators";
-import { User } from "../../models/user";
-import { HttpError, avatarHandler } from "../../helpers";
-
-const successStatus = 200;
-const errStatus = 401;
+import { User } from "../../models/user/index.js";
+import { HttpError, avatarHandler } from "../../helpers/index.js";
 
 const avatarsDir = path.resolve("public", "avatars");
 
@@ -27,10 +23,10 @@ const updateAvatar = async (req, res, next) => {
   const user = await User.findByIdAndUpdate(_id, { avatarURL }, { new: true });
 
   if (!user) {
-    throw HttpError(errStatus);
+    throw HttpError(401);
   }
 
-  res.status(successStatus).json({ avatarURL: user.avatarURL });
+  res.json({ avatarURL: user.avatarURL });
 };
 
-export default { updateAvatar: ctrlrWrapper(updateAvatar) };
+export default updateAvatar;
