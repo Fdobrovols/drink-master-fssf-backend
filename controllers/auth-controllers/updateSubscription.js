@@ -1,9 +1,5 @@
-import { ctrlrWrapper } from "../../decorators";
-import { HttpError } from "../../helpers";
-import { User } from "../../models/user";
-
-const successStatus = 200;
-const errStatus = 404;
+import { User } from "../../models/user/index.js";
+import { HttpError } from "../../helpers/index.js";
 
 const updateSubscription = async (req, res, next) => {
   const { _id } = req.user;
@@ -18,10 +14,10 @@ const updateSubscription = async (req, res, next) => {
   );
 
   if (!user) {
-    throw HttpError(errStatus);
+    throw HttpError(404);
   }
 
-  res.status(successStatus).json(user);
+  res.json(user);
 };
 
-export default { updateSubscription: ctrlrWrapper(updateSubscription) };
+export default updateSubscription;

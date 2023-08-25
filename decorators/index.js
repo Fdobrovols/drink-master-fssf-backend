@@ -1,4 +1,2 @@
-import ctrlrWrapper from "./ctrlrWrapper.js";
-import validateBody from "./validateBody.js";
-
-export default { ctrlrWrapper, validateBody };
+export { default as ctrlrWrapper } from "./ctrlrWrapper.js";
+export { default as validateBody } from "./validateBody.js";

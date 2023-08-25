@@ -1,6 +1,4 @@
-import isBodyEmpty from "./isBodyEmpty.js";
-import isValidId from "./isValideId.js";
-import { authenticate } from "./authenticate.js";
-import upload from "./upload.js";
-
-module.exports = { isBodyEmpty, isValidId, authenticate, upload };
+export { default as isBodyEmpty } from "./isBodyEmpty.js";
+export { default as isValidId } from "./isValideId.js";
+export { default as authenticate } from "./authenticate.js";
+export { default as upload } from "./upload.js";

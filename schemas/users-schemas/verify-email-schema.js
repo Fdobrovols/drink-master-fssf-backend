@@ -1,8 +1,11 @@
 import Joi from "joi";
-import emailRegexp from "../../constants";
+import { emailRegexp } from "../../constants/index.js";
 
 const verifyEmailSchema = Joi.object({
-  email: Joi.string().pattern(emailRegexp).required(),
+  email: Joi.string()
+    .pattern(emailRegexp)
+    .required()
+    .messages({ "any.required": "missing required field email" }),
 });
 
 export default verifyEmailSchema;
