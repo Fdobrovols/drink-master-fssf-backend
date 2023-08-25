@@ -1,14 +1,14 @@
 import { User } from "../../models/user/index.js";
 import { HttpError } from "../../helpers/index.js";
 
-const updateSubscription = async (req, res, next) => {
+const updateSubscription = async (req, res) => {
   const { _id } = req.user;
-  const { subscription } = req.body;
+  const { subscribe } = req.body;
 
   const user = await User.findByIdAndUpdate(
     _id,
     {
-      subscription: subscription,
+      subscribe,
     },
     { new: true }
   );
@@ -17,7 +17,7 @@ const updateSubscription = async (req, res, next) => {
     throw HttpError(404);
   }
 
-  res.json(user);
+  res.json({ subscribe: user.subscribe });
 };
 
 export default updateSubscription;

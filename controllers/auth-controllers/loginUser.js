@@ -24,7 +24,7 @@ const loginUser = async (req, res) => {
 
   const payload = { id: user._id };
 
-  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1m" });
+  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "5m" });
   await User.findByIdAndUpdate(user._id, { token });
 
   res.json({
@@ -33,4 +33,4 @@ const loginUser = async (req, res) => {
   });
 };
 
-export default loginUser
+export default loginUser;

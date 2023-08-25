@@ -5,7 +5,7 @@ const logoutUser = async (req, res, next) => {
 
   await User.findByIdAndUpdate(_id, { token: "" });
 
-  res.status(204);
+  res.status(204).json();
 };
 
-export default logoutUser
+export default logoutUser;
