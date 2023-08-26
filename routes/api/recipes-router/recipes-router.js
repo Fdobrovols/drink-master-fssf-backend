@@ -10,6 +10,6 @@ recipesRouter.get("/main-page", recipesController.getAllRecipes);
 
 recipesRouter.get("/:id", recipesController.getById);
 
-recipesRouter.get("/category/:categoryName", recipesController.getByCategory);
+recipesRouter.get("/:category", recipesController.getByCategory);
 
 export default recipesRouter;

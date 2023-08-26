@@ -3,6 +3,8 @@ import logger from "morgan";
 import cors from "cors";
 import { authRouter } from "./routes/api/auth-router/index.js";
 import { recipesRouter } from "./routes/api/recipes-router/index.js";
+import { ingredientsRouter } from "./routes/api/ingredients-router/index.js";
+import { searchRouter } from "./routes/api/search-router/index.js";
 
 const app = express();
 
@@ -15,6 +17,8 @@ app.use(express.static("public"));
 
 app.use("/api/users", authRouter);
 app.use("/api/recipes", recipesRouter);
+app.use("/api/ingredients", ingredientsRouter);
+app.use("/api/search", searchRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
