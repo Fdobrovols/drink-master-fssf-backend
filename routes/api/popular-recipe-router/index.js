@@ -1,0 +1,1 @@
+export {default as popularRecipeRouter} from './popular-recipe-router.js'

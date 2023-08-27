@@ -13,7 +13,11 @@ authRouter.post(
   userControllers.registerUser
 );
 
-authRouter.post("/login", validateBody(joiSchemas.userLoginSchema), userControllers.loginUser);
+authRouter.post(
+  "/login",
+  validateBody(joiSchemas.userLoginSchema),
+  userControllers.loginUser
+);
 
 // authRouter.get("/verify/:verificationToken", verifyUser);
 
@@ -31,7 +35,7 @@ authRouter.patch(
 );
 
 authRouter.patch(
-  "/avatars",
+  "/update",
   authenticate,
   upload.single("avatarURL"),
   userControllers.updateAvatar

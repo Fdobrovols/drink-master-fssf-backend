@@ -3,14 +3,16 @@ import { Recipe } from "../../models/recipe/index.js";
 const successStatus = 200;
 
 const getByCategory = async (req, res) => {
-  console.log(req.params);
   const { category } = req.params;
 
   const { page = 1, limit = 8, ...query } = req.query;
+
   const skip = (page - 1) * limit;
 
-  //TODO pagination
-  const result = await Recipe.find({ category });
+  const result = await Recipe.find({ category }, "-createdAt -updatedAt", {
+    skip,
+    limit,
+  }).lean();
 
   res.status(successStatus).json(result);
 };
