@@ -9,6 +9,9 @@ const updateUser = async (req, res) => {
   const { name } = req.body;
   if (!req.file) {
     user = await User.findByIdAndUpdate(_id, { name }, { new: true });
+    if (!user) {
+      throw HttpError(404);
+    }
     return res.json({ name });
   }
 
@@ -37,7 +40,7 @@ const updateUser = async (req, res) => {
     }
 
     if (!user) {
-      throw HttpError(401);
+      throw HttpError(404);
     }
 
     res.json({ avatarURL: user.avatarURL, name: user.name });
