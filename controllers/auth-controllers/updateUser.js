@@ -3,8 +3,10 @@ import fs from "fs/promises";
 import { User } from "../../models/user/index.js";
 import { HttpError, cloudinary } from "../../helpers/index.js";
 
-const updateAvatar = async (req, res) => {
-  const { _id } = req.user;
+const updateUser = async (req, res) => {
+  let user = null;
+  const { _id, name: userName } = req.user;
+  const { name } = req.body;
   const { path: tempUpload, originalname } = req.file;
 
   try {
@@ -21,17 +23,23 @@ const updateAvatar = async (req, res) => {
     });
     await fs.unlink(tempUpload);
 
-    const user = await User.findByIdAndUpdate(_id, { avatarURL }, { new: true });
+    if (name !== userName) {
+      console.log("update avatar and name");
+      user = await User.findByIdAndUpdate(_id, { avatarURL, name }, { new: true });
+    } else {
+      console.log("update only avatar");
+      user = await User.findByIdAndUpdate(_id, { avatarURL }, { new: true });
+    }
 
     if (!user) {
       throw HttpError(401);
     }
 
-    res.json({ avatarURL: user.avatarURL });
+    res.json({ avatarURL: user.avatarURL, name: user.name });
   } catch (error) {
     await fs.unlink(tempUpload);
     throw error;
   }
 };
 
-export default updateAvatar;
+export default updateUser;
