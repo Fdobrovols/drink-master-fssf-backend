@@ -7,6 +7,11 @@ const updateUser = async (req, res) => {
   let user = null;
   const { _id, name: userName } = req.user;
   const { name } = req.body;
+  if (!req.file) {
+    user = await User.findByIdAndUpdate(_id, { name }, { new: true });
+    return res.json({ name });
+  }
+
   const { path: tempUpload, originalname } = req.file;
 
   try {
