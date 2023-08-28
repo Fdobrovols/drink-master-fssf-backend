@@ -3,7 +3,7 @@ import loginUser from "./loginUser.js";
 import logoutUser from "./logoutUser.js";
 import getCurrentUser from "./getCurrentUser.js";
 import updateSubscription from "./updateSubscription.js";
-import updateAvatar from "./updateAvatar.js";
+import updateUser from "./updateUser.js";
 import { ctrlrWrapper } from "../../decorators/index.js";
 
 export default {
@@ -12,5 +12,5 @@ export default {
   logoutUser: ctrlrWrapper(logoutUser),
   getCurrentUser: ctrlrWrapper(getCurrentUser),
   updateSubscription: ctrlrWrapper(updateSubscription),
-  updateAvatar: ctrlrWrapper(updateAvatar),
+  updateUser: ctrlrWrapper(updateUser),
 };

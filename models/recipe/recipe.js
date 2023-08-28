@@ -1,11 +1,7 @@
 import { Schema, model } from "mongoose";
 
 import hooks from "../hooks/index.js";
-import {
-  categoryList,
-  glassList,
-  alcoholicValues,
-} from "../../constants/index.js";
+import { categoryList, glassList, alcoholicValues } from "../../constants/index.js";
 
 const recipeSchema = new Schema(
   {
@@ -48,7 +44,12 @@ const recipeSchema = new Schema(
         thumbSmall: { type: String, default: null },
       },
     ],
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+    },
   },
+
   { versionKey: false, timestamps: true }
 );
 

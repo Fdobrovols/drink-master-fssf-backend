@@ -1,17 +1,15 @@
 import { Router } from "express";
+import { authenticate } from "../../../middlewares/index.js";
+import ownControllers from "../../../controllers/own-controllers/index.js";
 
 const ownRouter = Router();
 
-ownRouter.post("/", (req, res, next) => {
-  res.json({ message: "its postOwnRecipe route" });
-});
+ownRouter.use(authenticate);
 
-ownRouter.delete("/:id", (req, res, next) => {
-  res.json({ message: "its deleteOwnRecipe route" });
-});
+ownRouter.post("/", ownControllers.addOwnRecipe);
 
-ownRouter.get("/", (req, res, next) => {
-  res.json({ message: "its getOwnRecipes route" });
-});
+ownRouter.delete("/:id", ownControllers.removeOwnRecipe);
+
+ownRouter.get("/", ownControllers.getOwnRecipes);
 
 export default ownRouter;
