@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { authenticate } from "../../../middlewares/index.js";
+import middlewares from "../../../middlewares/index.js";
 import ownControllers from "../../../controllers/own-controllers/index.js";
 
 const ownRouter = Router();
 
-ownRouter.use(authenticate);
+ownRouter.use(middlewares.authenticate);
 
 ownRouter.post("/", ownControllers.addOwnRecipe);
 

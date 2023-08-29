@@ -1,17 +1,23 @@
 import { Router } from "express";
+import middlewares from "../../../middlewares/index.js";
+import favoriteControllers from "../../../controllers/favorite-controllers/index.js";
 
 const favoriteRouter = Router();
 
-favoriteRouter.patch("/add/:id", (req, res, next) => {
-  res.json({ message: "its addToFavorite route" });
-});
+favoriteRouter.use(middlewares.authenticate);
 
-favoriteRouter.get("/", (req, res, next) => {
-  res.json({ message: "its getFavorite route" });
-});
+favoriteRouter.patch(
+  "/add/:id",
+  middlewares.isValidId,
+  favoriteControllers.addToFavorite
+);
 
-favoriteRouter.patch("/remove/:id", (req, res, next) => {
-  res.json({ message: "its removeFromFavorite route" });
-});
+favoriteRouter.get("/", favoriteControllers.getFavorite);
+
+favoriteRouter.patch(
+  "/remove/:id",
+  middlewares.isValidId,
+  favoriteControllers.removeFromFavorite
+);
 
 export default favoriteRouter;

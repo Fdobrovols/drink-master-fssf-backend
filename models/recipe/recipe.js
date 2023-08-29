@@ -1,7 +1,11 @@
 import { Schema, model } from "mongoose";
 
 import hooks from "../hooks/index.js";
-import { categoryList, glassList, alcoholicValues } from "../../constants/index.js";
+import {
+  categoryList,
+  glassList,
+  alcoholicValues,
+} from "../../constants/index.js";
 
 const recipeSchema = new Schema(
   {
@@ -27,27 +31,28 @@ const recipeSchema = new Schema(
       enum: glassList,
     },
     instructions: { type: String, required: [true, "Set instruction"] },
-    instructionsUK: String,
-    instructionsES: String,
-    instructionsDE: String,
-    instructionsFR: String,
-    instructionsIT: String,
-    instructionsPL: String,
-    instructionsRU: String,
+    instructionsUK: { type: String, default: null },
+    instructionsES: { type: String, default: null },
+    instructionsDE: { type: String, default: null },
+    instructionsFR: { type: String, default: null },
+    instructionsIT: { type: String, default: null },
+    instructionsPL: { type: String, default: null },
+    instructionsRU: { type: String, default: null },
     drinkThumb: { type: String, default: null },
     ingredients: [
       {
         title: { type: String, required: [true, "Set ingredient`s name"] },
         measure: { type: String, required: [true, "Set ingredient`s measure"] },
         ingredientThumb: { type: String, default: null },
-        thumbMedium: { type: String, default: null },
-        thumbSmall: { type: String, default: null },
+        "thumb-medium": { type: String, default: null },
+        "thumb-small": { type: String, default: null },
       },
     ],
     owner: {
       type: Schema.Types.ObjectId,
       ref: "user",
     },
+    favorite: [{ type: Schema.Types.ObjectId, ref: "user" }],
   },
 
   { versionKey: false, timestamps: true }

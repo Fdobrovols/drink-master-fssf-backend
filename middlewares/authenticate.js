@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 
-import { ctrlrWrapper } from "../decorators/index.js";
 import { HttpError } from "../helpers/index.js";
 import { User } from "../models/user/index.js";
 
@@ -29,4 +28,4 @@ const authenticate = async (req, _, next) => {
   }
 };
 
-export default ctrlrWrapper(authenticate);
+export default authenticate;
