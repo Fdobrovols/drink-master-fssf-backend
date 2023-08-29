@@ -3,7 +3,7 @@ import express from "express";
 import userControllers from "../../../controllers/auth-controllers/index.js";
 import { validateBody } from "../../../decorators/index.js";
 import joiSchemas from "../../../schemas/users-schemas/index.js";
-import { authenticate, upload } from "../../../middlewares/index.js";
+import middlewares from "../../../middlewares/index.js";
 
 const authRouter = express.Router();
 
@@ -13,27 +13,39 @@ authRouter.post(
   userControllers.registerUser
 );
 
-authRouter.post("/login", validateBody(joiSchemas.userLoginSchema), userControllers.loginUser);
+authRouter.post(
+  "/login",
+  validateBody(joiSchemas.userLoginSchema),
+  userControllers.loginUser
+);
 
 // authRouter.get("/verify/:verificationToken", verifyUser);
 
 // authRouter.post("/verify", validateBody(verifyEmailSchema, bedRequestBodyMsg), resendVerifyEmail);
 
-authRouter.post("/logout", authenticate, userControllers.logoutUser);
+authRouter.post(
+  "/logout",
+  middlewares.authenticate,
+  userControllers.logoutUser
+);
 
-authRouter.get("/current", authenticate, userControllers.getCurrentUser);
+authRouter.get(
+  "/current",
+  middlewares.authenticate,
+  userControllers.getCurrentUser
+);
 
 authRouter.patch(
   "/subscribe",
-  authenticate,
+  middlewares.authenticate,
   validateBody(joiSchemas.updateSubscriptionSchema),
   userControllers.updateSubscription
 );
 
 authRouter.patch(
   "/update",
-  authenticate,
-  upload.single("avatarURL"),
+  middlewares.authenticate,
+  middlewares.upload.single("avatarURL"),
   validateBody(joiSchemas.userUpdateSchema),
   userControllers.updateUser
 );
