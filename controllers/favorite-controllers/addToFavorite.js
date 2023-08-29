@@ -1,25 +1,27 @@
 import { HttpError } from "../../helpers/index.js";
 import { Recipe } from "../../models/recipe/index.js";
 
-const addToFavorite = async (req, res, next) => {
+const errStatus = 404;
+
+const addToFavorite = async (req, res) => {
   const { id } = req.params;
-  const { id: userId, email } = req.user;
+  const { _id } = req.user;
 
-  //temp
-  userId = "64ec96d22e583b39a2c4f14c";
-
-  //   const result = Recipe.findByIdAndUpdate(
-  //     id,
-  //     { favorite: [userId, ...favorite] },
-  //     { new: true }
-  //   );
+  const result = await Recipe.findById(id);
 
   if (!result) {
     throw HttpError(errStatus);
   }
 
-  //del
-  console.log(result.favorite);
+  if (result.favorite) {
+    result.favorite.push(_id);
+  } else {
+    result = { ...result, favorite: [_id] };
+  }
+
+  await result.save();
+
+  res.json({ message: `Recipe id:${id} added to favorite` });
 };
 
 export default addToFavorite;
