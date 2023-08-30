@@ -1,9 +1,7 @@
 import Joi from "joi";
 
 const updateSubscriptionSchema = Joi.object({
-  subscribe: Joi.boolean()
-    .required()
-    .messages({ "any.required": "missing required field subscribe" }),
+  email: Joi.string().required().messages({ "any.required": "missing required field email" }),
 });
 
 export default updateSubscriptionSchema;
