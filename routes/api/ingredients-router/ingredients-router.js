@@ -3,7 +3,7 @@ import ingredientsControllers from "../../../controllers/ingredients-controllers
 
 const ingredientsRouter = Router();
 
-ingredientsRouter.get("/", ingredientsControllers.getRecipeByIngredient);
+ingredientsRouter.get("/:ingredient", ingredientsControllers.getRecipeByIngredient);
 
 ingredientsRouter.get("/list", ingredientsControllers.getListOfIngredients);
 
