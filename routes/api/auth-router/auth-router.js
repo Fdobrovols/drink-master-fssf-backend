@@ -13,27 +13,11 @@ authRouter.post(
   userControllers.registerUser
 );
 
-authRouter.post(
-  "/login",
-  validateBody(joiSchemas.userLoginSchema),
-  userControllers.loginUser
-);
+authRouter.post("/login", validateBody(joiSchemas.userLoginSchema), userControllers.loginUser);
 
-// authRouter.get("/verify/:verificationToken", verifyUser);
+authRouter.post("/logout", middlewares.authenticate, userControllers.logoutUser);
 
-// authRouter.post("/verify", validateBody(verifyEmailSchema, bedRequestBodyMsg), resendVerifyEmail);
-
-authRouter.post(
-  "/logout",
-  middlewares.authenticate,
-  userControllers.logoutUser
-);
-
-authRouter.get(
-  "/current",
-  middlewares.authenticate,
-  userControllers.getCurrentUser
-);
+authRouter.get("/current", middlewares.authenticate, userControllers.getCurrentUser);
 
 authRouter.patch(
   "/subscribe",
@@ -46,7 +30,6 @@ authRouter.patch(
   "/update",
   middlewares.authenticate,
   middlewares.upload.single("avatarURL"),
-  validateBody(joiSchemas.userUpdateSchema),
   userControllers.updateUser
 );
 
