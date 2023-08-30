@@ -6,10 +6,10 @@ const ownRouter = Router();
 
 ownRouter.use(middlewares.authenticate);
 
-ownRouter.post("/", ownControllers.addOwnRecipe);
+ownRouter.get("/", ownControllers.getOwnRecipes);
+
+ownRouter.post("/", middlewares.upload.single("drinkThumb"), ownControllers.addOwnRecipe);
 
 ownRouter.delete("/:id", ownControllers.removeOwnRecipe);
-
-ownRouter.get("/", ownControllers.getOwnRecipes);
 
 export default ownRouter;
