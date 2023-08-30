@@ -1,7 +1,11 @@
 import { Schema, model } from "mongoose";
 
 import hooks from "../hooks/index.js";
-import { categoryList, glassList, alcoholicValues } from "../../constants/index.js";
+import {
+  categoryList,
+  glassList,
+  alcoholicValues,
+} from "../../constants/index.js";
 
 const recipeSchema = new Schema(
   {
@@ -48,7 +52,9 @@ const recipeSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "user",
     },
+    // private: { type: Boolean, default: false },
     favorite: [{ type: Schema.Types.ObjectId, ref: "user" }],
+    about: { type: String, default: null },
   },
 
   { versionKey: false, timestamps: true }
