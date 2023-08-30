@@ -1,5 +1,5 @@
-import { HttpError } from "../../helpers/index.js";
 import { Recipe } from "../../models/recipe/index.js";
+import { HttpError } from "../../helpers/index.js";
 
 const errStatus = 404;
 
