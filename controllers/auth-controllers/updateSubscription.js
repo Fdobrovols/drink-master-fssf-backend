@@ -3,8 +3,15 @@ import { HttpError } from "../../helpers/index.js";
 import { sendEmail } from "../../helpers/index.js";
 
 const updateSubscription = async (req, res) => {
-  const { _id, name } = req.user;
+  const { _id, name, email: userEmail } = req.user;
   const { email } = req.body;
+
+  if (email !== userEmail) {
+    throw HttpError(
+      400,
+      "You can subscribe only to the email address you specified during registration"
+    );
+  }
 
   const user = await User.findByIdAndUpdate(
     _id,

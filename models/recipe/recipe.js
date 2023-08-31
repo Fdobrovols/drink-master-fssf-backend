@@ -7,31 +7,30 @@ const recipeSchema = new Schema(
   {
     drink: {
       type: String,
-      // required: [true, "Set coctail`s name"]
+      required: [true, "Set coctail`s name"],
     },
     drinkAlternate: { type: String, default: null },
     tags: { type: String, default: null },
     video: { type: String, default: null },
     category: {
       type: String,
-      // required: [true, "Set coctail`s category"],
+      required: [true, "Set coctail`s category"],
       enum: categoryList,
       default: "Other/Unknown",
     },
     IBA: { type: String, default: null },
     alcoholic: {
       type: String,
-      // required: [true, "Set 'alcoholic' field"],
       enum: alcoholicValues,
     },
     glass: {
       type: String,
-      // required: [true, "Set type of glass"],
+      required: [true, "Set type of glass"],
       enum: glassList,
     },
     instructions: {
       type: String,
-      // required: [true, "Set instruction"]
+      required: [true, "Set instruction"],
     },
     instructionsUK: { type: String, default: null },
     instructionsES: { type: String, default: null },
@@ -45,11 +44,11 @@ const recipeSchema = new Schema(
       {
         title: {
           type: String,
-          // required:  [true, "Set ingredient`s name"]
+          required: [true, "Set ingredient`s name"],
         },
         measure: {
           type: String,
-          // required: [true, "Set ingredient`s measure"]
+          required: [true, "Set ingredient`s measure"],
         },
         ingredientThumb: { type: String, default: null },
         "thumb-medium": { type: String, default: null },
