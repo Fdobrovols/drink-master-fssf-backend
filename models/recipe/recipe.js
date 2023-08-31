@@ -1,21 +1,20 @@
 import { Schema, model } from "mongoose";
 
 import hooks from "../hooks/index.js";
-import {
-  categoryList,
-  glassList,
-  alcoholicValues,
-} from "../../constants/index.js";
+import { categoryList, glassList, alcoholicValues } from "../../constants/index.js";
 
 const recipeSchema = new Schema(
   {
-    drink: { type: String, required: [true, "Set coctail`s name"] },
+    drink: {
+      type: String,
+      // required: [true, "Set coctail`s name"]
+    },
     drinkAlternate: { type: String, default: null },
     tags: { type: String, default: null },
     video: { type: String, default: null },
     category: {
       type: String,
-      required: [true, "Set coctail`s category"],
+      // required: [true, "Set coctail`s category"],
       enum: categoryList,
       default: "Other/Unknown",
     },
@@ -27,10 +26,13 @@ const recipeSchema = new Schema(
     },
     glass: {
       type: String,
-      required: [true, "Set type of glass"],
+      // required: [true, "Set type of glass"],
       enum: glassList,
     },
-    instructions: { type: String, required: [true, "Set instruction"] },
+    instructions: {
+      type: String,
+      // required: [true, "Set instruction"]
+    },
     instructionsUK: { type: String, default: null },
     instructionsES: { type: String, default: null },
     instructionsDE: { type: String, default: null },
@@ -41,8 +43,14 @@ const recipeSchema = new Schema(
     drinkThumb: { type: String, default: null },
     ingredients: [
       {
-        title: { type: String, required: [true, "Set ingredient`s name"] },
-        measure: { type: String, required: [true, "Set ingredient`s measure"] },
+        title: {
+          type: String,
+          // required:  [true, "Set ingredient`s name"]
+        },
+        measure: {
+          type: String,
+          // required: [true, "Set ingredient`s measure"]
+        },
         ingredientThumb: { type: String, default: null },
         "thumb-medium": { type: String, default: null },
         "thumb-small": { type: String, default: null },
