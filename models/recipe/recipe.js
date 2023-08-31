@@ -42,7 +42,7 @@ const recipeSchema = new Schema(
     ingredients: [
       {
         title: { type: String, required: [true, "Set ingredient`s name"] },
-        measure: { type: String, required: [true, "Set ingredient`s measure"] },
+        measure: { type: String, default: null },
         ingredientThumb: { type: String, default: null },
         "thumb-medium": { type: String, default: null },
         "thumb-small": { type: String, default: null },
