@@ -20,7 +20,7 @@ const removeFromFavorite = async (req, res, next) => {
 
   await result.save();
 
-  res.json({ message: `Recipe with id:${id} deleted from favorite` });
+  res.json({ result });
 };
 
 export default removeFromFavorite;

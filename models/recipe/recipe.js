@@ -9,7 +9,10 @@ import {
 
 const recipeSchema = new Schema(
   {
-    drink: { type: String, required: [true, "Set coctail`s name"] },
+    drink: {
+      type: String,
+      required: [true, "Set coctail`s name"],
+    },
     drinkAlternate: { type: String, default: null },
     tags: { type: String, default: null },
     video: { type: String, default: null },
@@ -22,7 +25,6 @@ const recipeSchema = new Schema(
     IBA: { type: String, default: null },
     alcoholic: {
       type: String,
-      // required: [true, "Set 'alcoholic' field"],
       enum: alcoholicValues,
     },
     glass: {
@@ -30,7 +32,10 @@ const recipeSchema = new Schema(
       required: [true, "Set type of glass"],
       enum: glassList,
     },
-    instructions: { type: String, required: [true, "Set instruction"] },
+    instructions: {
+      type: String,
+      required: [true, "Set instruction"],
+    },
     instructionsUK: { type: String, default: null },
     instructionsES: { type: String, default: null },
     instructionsDE: { type: String, default: null },
@@ -41,8 +46,14 @@ const recipeSchema = new Schema(
     drinkThumb: { type: String, default: null },
     ingredients: [
       {
-        title: { type: String, required: [true, "Set ingredient`s name"] },
-        measure: { type: String, default: null },
+        title: {
+          type: String,
+          required: [true, "Set ingredient`s name"],
+        },
+        measure: {
+          type: String,
+          required: [true, "Set ingredient`s measure"],
+        },
         ingredientThumb: { type: String, default: null },
         "thumb-medium": { type: String, default: null },
         "thumb-small": { type: String, default: null },
