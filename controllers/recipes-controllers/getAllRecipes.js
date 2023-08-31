@@ -1,19 +1,20 @@
 import { Recipe } from "../../models/recipe/index.js";
-import { categoryList } from "../../constants/index.js";
 
 const successStatus = 200;
+const defaultDocNumber = 3;
 
 const getAllRecipes = async (req, res) => {
-  // const { limitStr = 3 } = req.query;
-  // const limit = Number(limitStr);
-  // console.log(typeof limit);
+  const isNumberSet = Boolean(req.query.number_of_every);
 
-  // const result = await Recipe.aggregate([
-  //   { $sort: { category: 1 } },
-  //   { $limit: limit },
-  // ]);
+  const docNumber = isNumberSet
+    ? Number(req.query.number_of_every)
+    : defaultDocNumber;
 
-  const result = await Recipe.find().lean();
+  const result = await Recipe.aggregate([
+    { $sort: { category: 1 } },
+    { $group: { _id: "$category", recipes: { $push: "$$ROOT" } } },
+    { $project: { recipes: { $slice: ["$recipes", docNumber] } } },
+  ]);
 
   res.status(successStatus).json(result);
 };
