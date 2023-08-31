@@ -8,7 +8,7 @@ const removeOwnRecipe = async (req, res) => {
   if (!deletedRecipe) {
     throw HttpError(404);
   }
-  res.json({ message: "your coctail has been deleted" });
+  res.json({ deletedRecipe });
 };
 
 export default removeOwnRecipe;

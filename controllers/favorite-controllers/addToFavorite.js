@@ -21,7 +21,7 @@ const addToFavorite = async (req, res) => {
 
   await result.save();
 
-  res.json({ message: `Recipe id:${id} added to favorite` });
+  res.json({ result });
 };
 
 export default addToFavorite;
