@@ -52,7 +52,7 @@ const recipeSchema = new Schema(
         },
         measure: {
           type: String,
-          required: [true, "Set ingredient`s measure"],
+          default: null,
         },
         ingredientThumb: { type: String, default: null },
         "thumb-medium": { type: String, default: null },
