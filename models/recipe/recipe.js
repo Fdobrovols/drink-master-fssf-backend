@@ -1,7 +1,11 @@
 import { Schema, model } from "mongoose";
 
 import hooks from "../hooks/index.js";
-import { categoryList, glassList, alcoholicValues } from "../../constants/index.js";
+import {
+  categoryList,
+  glassList,
+  alcoholicValues,
+} from "../../constants/index.js";
 
 const recipeSchema = new Schema(
   {
@@ -48,7 +52,7 @@ const recipeSchema = new Schema(
         },
         measure: {
           type: String,
-          required: [true, "Set ingredient`s measure"],
+          default: null,
         },
         ingredientThumb: { type: String, default: null },
         "thumb-medium": { type: String, default: null },
