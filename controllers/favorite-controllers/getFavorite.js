@@ -6,6 +6,13 @@ const getFavorite = async (req, res) => {
 
   const skip = (page - 1) * limit;
 
+  // const favorite = await Recipe.aggregate([
+  //   { $match: { favorite: _id } },
+  //   { $count: "totalHits" },
+  //   { $skip: Number(skip) },
+  //   { $limit: Number(limit) },
+  // ]);
+
   const result = await Recipe.find({ favorite: _id }, "", { skip, limit }).lean();
   const totalHits = await Recipe.countDocuments({ favorite: _id });
 
