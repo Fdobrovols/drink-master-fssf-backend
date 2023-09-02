@@ -12,7 +12,7 @@ const updateUser = async (req, res) => {
     if (!user) {
       throw HttpError(404);
     }
-    return res.json({ name });
+    return res.json({ name, avatarURL: user.avatarURL });
   }
 
   const { path: tempUpload, originalname } = req.file;
