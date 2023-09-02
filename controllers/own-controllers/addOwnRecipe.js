@@ -3,13 +3,9 @@ import { Recipe } from "../../models/recipe/index.js";
 import { cloudinary } from "../../helpers/index.js";
 
 const addOwnRecipe = async (req, res) => {
-  console.log(req.body);
-  console.log(req.file);
-
   const { _id: owner } = req.user;
   if (!req.file) {
-    const newRecipe = await Recipe.create({ ...req.body, owner });
-    console.log(newRecipe);
+    const newRecipe = await Recipe.create({ ...req.body, drinkThumb: null, owner });
     return req.json(newRecipe);
   }
 
@@ -17,6 +13,7 @@ const addOwnRecipe = async (req, res) => {
 
   try {
     const fileName = `${owner}_${originalname}`;
+
     const { url: drinkThumb } = await cloudinary.uploader.upload(tempUpload, {
       folder: "recipes",
       public_id: fileName,
