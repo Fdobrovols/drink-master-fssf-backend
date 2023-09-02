@@ -14,7 +14,9 @@ const addToFavorite = async (req, res) => {
   }
 
   if (result.favorite) {
-    result.favorite.push(_id);
+    if (!result.favorite.includes(_id)) {
+      result.favorite.push(_id);
+    }
   } else {
     result = { ...result, favorite: [_id] };
   }
