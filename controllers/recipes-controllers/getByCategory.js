@@ -5,7 +5,7 @@ const successStatus = 200;
 const getByCategory = async (req, res) => {
   const { category } = req.params;
 
-  const { page = 1, limit = 8, ...query } = req.query;
+  const { page = 1, limit = 8 } = req.query;
 
   const skip = (page - 1) * limit;
 

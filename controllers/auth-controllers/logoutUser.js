@@ -1,6 +1,6 @@
 import { User } from "../../models/user/index.js";
 
-const logoutUser = async (req, res, next) => {
+const logoutUser = async (req, res) => {
   const { _id } = req.user;
 
   await User.findByIdAndUpdate(_id, { token: "" });
