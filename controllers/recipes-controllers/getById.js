@@ -5,7 +5,7 @@ import { isValidObjectId } from "mongoose";
 const successStatus = 200;
 const errStatus = 404;
 
-const getById = async (req, res, next) => {
+const getById = async (req, res) => {
   const { id } = req.params;
 
   const result = await Recipe.findById(id).lean();

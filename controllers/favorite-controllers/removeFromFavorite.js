@@ -1,6 +1,8 @@
 import { Recipe } from "../../models/recipe/index.js";
 import { HttpError } from "../../helpers/index.js";
 
+const errStatus = 404;
+
 const removeFromFavorite = async (req, res, next) => {
   const { id } = req.params;
   const { _id } = req.user;

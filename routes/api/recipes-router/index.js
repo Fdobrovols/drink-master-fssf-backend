@@ -1,1 +1,1 @@
-export {default as recipesRouter} from './recipes-router.js'
+export { default as recipesRouter } from "./recipes-router.js";

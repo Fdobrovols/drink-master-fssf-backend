@@ -7,7 +7,7 @@ const addToFavorite = async (req, res) => {
   const { id } = req.params;
   const { _id } = req.user;
 
-  const result = await Recipe.findById(id);
+  let result = await Recipe.findById(id);
 
   if (!result) {
     throw HttpError(errStatus);
