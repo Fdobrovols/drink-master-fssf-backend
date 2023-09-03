@@ -1,6 +1,8 @@
 import express from "express";
 import logger from "morgan";
 import cors from "cors";
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "./swagger/index.js";
 import { authRouter } from "./routes/api/auth-router/index.js";
 import { recipesRouter } from "./routes/api/recipes-router/index.js";
 import { ingredientsRouter } from "./routes/api/ingredients-router/index.js";
@@ -11,6 +13,8 @@ import { favoriteRouter } from "./routes/api/favorite-router/index.js";
 import { popularRecipeRouter } from "./routes/api/popular-recipe-router/index.js";
 
 const app = express();
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
