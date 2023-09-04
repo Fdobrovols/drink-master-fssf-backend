@@ -1,11 +1,7 @@
 import { Schema, model } from "mongoose";
 
 import hooks from "../hooks/index.js";
-import {
-  categoryList,
-  glassList,
-  alcoholicValues,
-} from "../../constants/index.js";
+import { categoryList, alcoholicValues } from "../../constants/index.js";
 
 const recipeSchema = new Schema(
   {
@@ -30,7 +26,6 @@ const recipeSchema = new Schema(
     glass: {
       type: String,
       required: [true, "Set type of glass"],
-      enum: glassList,
     },
     instructions: {
       type: String,

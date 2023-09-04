@@ -5,6 +5,8 @@ const getFavorite = async (req, res) => {
   const { _id } = req.user;
 
   const skip = (page - 1) * limit;
+  const numberPage = Number(page);
+  const numberLimit = Number(limit);
 
   const result = await Recipe.find({ favorite: _id }, "", {
     skip,
@@ -13,7 +15,7 @@ const getFavorite = async (req, res) => {
 
   const totalHits = await Recipe.countDocuments({ favorite: _id });
 
-  res.json({ page, limit, totalHits, result });
+  res.json({ page: numberPage, limit: numberLimit, totalHits, result });
 };
 
 export default getFavorite;
