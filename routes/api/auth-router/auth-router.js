@@ -30,6 +30,7 @@ authRouter.patch(
   "/update",
   middlewares.authenticate,
   middlewares.upload.single("avatarURL"),
+  validateBody(joiSchemas.updateUserSchema),
   userControllers.updateUser
 );
 
