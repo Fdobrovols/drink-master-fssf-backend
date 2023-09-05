@@ -141,10 +141,53 @@
         }
       }
     },
-    "/api/subscribe": {
+    "/users/update": {
+      "patch": {
+        "summary": "Update User",
+        "tags": ["Authentication"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "User new name and avatar",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)"
+          },
+          "401": {
+            "description": "Unauthorized (invalid credentials)"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/users/subscribe": {
       "post": {
         "summary": "Subscribe",
-        "tags": ["Subscribe"],
+        "tags": ["Authentication"],
         "security": [
           {
             "Bearer": []
@@ -181,10 +224,39 @@
         }
       }
     },
+    "/recipes/category-list": {
+      "get": {
+        "summary": "Get list of categories",
+        "tags": ["Recipes"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MainPageRecipeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)"
+          },
+          "401": {
+            "description": "Unauthorized (invalid credentials)"
+          }
+        }
+      }
+    },
     "/recipes/main-page": {
       "get": {
-        "summary": "Get recipes or category",
-        "tags": ["Recipe"],
+        "summary": "Get recipes by categories",
+        "tags": ["Recipes"],
         "security": [
           {
             "Bearer": []
@@ -210,10 +282,39 @@
         }
       }
     },
-    "/api/recipes/:id:": {
+    "/recipes/category/{category}": {
+      "get": {
+        "summary": "Get recipes by category",
+        "tags": ["Recipes"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Recipes by category",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MainPageRecipeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)"
+          },
+          "401": {
+            "description": "Unauthorized (invalid credentials)"
+          }
+        }
+      }
+    },
+    "/api/recipes/{id}": {
       "get": {
         "summary": "Get one recipe",
-        "tags": ["Recipe"],
+        "tags": ["Recipes"],
         "security": [
           {
             "Bearer": []
@@ -253,7 +354,7 @@
     "/search": {
       "get": {
         "summary": "Search recipes by name, category, ingredient with pagination",
-        "tags": ["Recipe"],
+        "tags": ["Search"],
         "security": [
           {
             "Bearer": []
@@ -450,10 +551,11 @@
         }
       }
     },
-    "/popular-recipe": {
+    "/ingredients/list": {
       "get": {
-        "summary": "Get popular recipe",
-        "tags": ["Recipe"],
+        "summary": "Get list of ingredients",
+        "tags": ["Ingredients"],
+        "description": "Get list of ingredients",
         "security": [
           {
             "Bearer": []
@@ -461,44 +563,11 @@
         ],
         "responses": {
           "200": {
-            "description": "Popular recipe",
+            "description": "Get list of ingredients is successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PopularRecipesResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request (invalid request body)"
-          },
-          "401": {
-            "description": "Unauthorized (invalid credentials)"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/api/categories": {
-      "get": {
-        "summary": "Get categories list",
-        "tags": ["List of recipe categories"],
-        "description": "Get all categories",
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Get categories is successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CategoriesResponse"
+                  "$ref": "#/components/schemas/IngredientsResponse"
                 }
               }
             }
@@ -514,9 +583,9 @@
     },
     "/ingredients": {
       "get": {
-        "summary": "Get ingredients list",
-        "tags": ["Recipes by ingredients"],
-        "description": "Get all ingredients",
+        "summary": "Get recipes by ingredient",
+        "tags": ["Ingredients"],
+        "description": "Get recipes by ingredient",
         "security": [
           {
             "Bearer": []
@@ -524,7 +593,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Get ingredients is successfully",
+            "description": "Get recipes by ingredient is successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -545,7 +614,7 @@
     "/glass": {
       "get": {
         "summary": "Get glass list",
-        "tags": ["List of containers for serving"],
+        "tags": ["Glass"],
         "description": "Get all glass",
         "security": [
           {
@@ -615,7 +684,7 @@
         }
       }
     },
-    "/api/own/:userId": {
+    "/own/": {
       "post": {
         "summary": "Add own recipe",
         "tags": ["Own"],
@@ -658,7 +727,7 @@
         }
       }
     },
-    "/api/own/:recipeId": {
+    "/own/{id}": {
       "delete": {
         "summary": "Delete own recipe",
         "tags": ["Own"],
@@ -744,9 +813,9 @@
         }
       }
     },
-    "/api/favorite/:recipeId": {
+    "/favorite/add/{id}": {
       "post": {
-        "summary": "Add favorite recipe",
+        "summary": "Add recipe to favorite",
         "tags": ["Favorite"],
         "security": [
           {
@@ -787,9 +856,9 @@
         }
       }
     },
-    "/api/favorite/:recipeID": {
+    "/favorite/remove/{id}": {
       "delete": {
-        "summary": "Delete favorite recipe",
+        "summary": "Remove recipe frome favorite",
         "tags": ["Favorite"],
         "security": [
           {
@@ -830,9 +899,9 @@
         }
       }
     },
-    "/api/popular-recipe": {
+    "/popular-recipe": {
       "get": {
-        "summary": "Get popular recipe",
+        "summary": "Get popular recipes",
         "tags": ["Popular"],
         "security": [
           {
@@ -841,7 +910,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Popular recipe",
+            "description": "Popular recipes",
             "content": {
               "application/json": {
                 "schema": {
@@ -2059,7 +2128,6 @@
         }
       }
     },
-
     "securitySchemes": {
       "Bearer": {
         "type": "http",
