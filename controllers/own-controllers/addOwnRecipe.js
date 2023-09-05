@@ -21,11 +21,8 @@ const addOwnRecipe = async (req, res) => {
       crop: "fill",
     });
 
-    const parsedIngredients = JSON.parse(req.body.ingredients);
-
     const newRecipe = await Recipe.create({
       ...req.body,
-      ingredients: [...parsedIngredients],
       drinkThumb,
       owner,
     });

@@ -3,7 +3,8 @@ import { HttpError } from "../../helpers/index.js";
 import { sendEmail } from "../../helpers/index.js";
 
 const updateSubscription = async (req, res) => {
-  const { _id, name, email: userEmail } = req.user;
+  const { _id, name, email: userEmail, subscribe } = req.user;
+  console.log(subscribe);
   const { email } = req.body;
 
   if (email !== userEmail) {
@@ -11,6 +12,10 @@ const updateSubscription = async (req, res) => {
       400,
       "You can subscribe only to the email address you specified during registration"
     );
+  }
+
+  if (subscribe) {
+    throw HttpError(400, "You are already subscribed to our newsletter");
   }
 
   const user = await User.findByIdAndUpdate(
@@ -26,19 +31,10 @@ const updateSubscription = async (req, res) => {
   }
 
   const subscriptionEmailMessage = {
-    to: email,
-    subject: "Hello, our new subscriber",
-    html: `Dear ${name},
-
-We are delighted to express our sincere gratitude for your subscription to Drink Master. Your decision to join us brings us immense joy.
-
-Your subscription ensures you'll receive our latest updates and insights firsthand. Your support inspires us to continue delivering valuable content.
-
-If you have any questions or suggestions, please don't hesitate to reach out. We're excited to have you on board and look forward to a fruitful relationship.
-
-Thank you for choosing Drink Master.
-
-    <a target='_blank' href='https://ansachuk.github.io/FSSF-DrinkMaster/'>Click to back to home page</a>`,
+    sender: email,
+    templateName: "drinkMaster_subscribe",
+    name,
+    redirectedEmail: "https://ansachuk.github.io/FSSF-DrinkMaster/",
   };
 
   await sendEmail(subscriptionEmailMessage);
