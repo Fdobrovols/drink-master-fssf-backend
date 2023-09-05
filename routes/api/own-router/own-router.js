@@ -10,6 +10,6 @@ ownRouter.get("/", ownControllers.getOwnRecipes);
 
 ownRouter.post("/", middlewares.upload.single("drinkThumb"), ownControllers.addOwnRecipe);
 
-ownRouter.delete("/:id", ownControllers.removeOwnRecipe);
+ownRouter.delete("/:id",middlewares.isValidId, ownControllers.removeOwnRecipe);
 
 export default ownRouter;

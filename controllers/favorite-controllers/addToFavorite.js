@@ -7,23 +7,23 @@ const addToFavorite = async (req, res) => {
   const { id } = req.params;
   const { _id } = req.user;
 
-  const result = await Recipe.findById(id);
+  let favoriteRecipe = await Recipe.findById(id);
 
-  if (!result) {
+  if (!favoriteRecipe) {
     throw HttpError(errStatus);
   }
 
-  if (result.favorite) {
-    if (!result.favorite.includes(_id)) {
-      result.favorite.push(_id);
+  if (favoriteRecipe.favorite) {
+    if (!favoriteRecipe.favorite.includes(_id)) {
+      favoriteRecipe.favorite.push(_id);
     }
   } else {
-    result = { ...result, favorite: [_id] };
+    favoriteRecipe = { ...favoriteRecipe, favorite: [_id] };
   }
 
-  await result.save();
+  await favoriteRecipe.save();
 
-  res.json({ result });
+  res.json(favoriteRecipe);
 };
 
 export default addToFavorite;

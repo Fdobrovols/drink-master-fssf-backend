@@ -1,9 +1,11 @@
 import express from "express";
 
-import recipesController from "../../../controllers/recipes-controllers/index.js";
 import middlewares from "../../../middlewares/index.js";
+import recipesController from "../../../controllers/recipes-controllers/index.js";
 
 const recipesRouter = express.Router();
+
+recipesRouter.use(middlewares.authenticate);
 
 recipesRouter.get("/category-list", recipesController.getCategoryList);
 

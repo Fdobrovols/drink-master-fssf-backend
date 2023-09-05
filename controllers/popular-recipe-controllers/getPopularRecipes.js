@@ -2,7 +2,7 @@ import { Recipe } from "../../models/recipe/index.js";
 
 const defaultDocNumber = 4;
 
-const getPopularRecipes = async (req, res, next) => {
+const getPopularRecipes = async (req, res) => {
   const isNumberSet = Boolean(req.query.number_of_popular);
 
   const docNumber = isNumberSet
