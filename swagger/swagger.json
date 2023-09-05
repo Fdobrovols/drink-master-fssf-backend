@@ -141,50 +141,7 @@
         }
       }
     },
-    "/users/update": {
-      "patch": {
-        "summary": "Update User",
-        "tags": ["Authentication"],
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
-        "requestBody": {
-          "description": "User new name and avatar",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request (invalid request body)"
-          },
-          "401": {
-            "description": "Unauthorized (invalid credentials)"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/subscribe": {
+    "/api/subscribe": {
       "post": {
         "summary": "Subscribe",
         "tags": ["Subscribe"],
@@ -253,7 +210,7 @@
         }
       }
     },
-    "/recipes/{recipeId}:": {
+    "/api/recipes/:id:": {
       "get": {
         "summary": "Get one recipe",
         "tags": ["Recipe"],
@@ -525,7 +482,7 @@
         }
       }
     },
-    "/recipes": {
+    "/api/categories": {
       "get": {
         "summary": "Get categories list",
         "tags": ["List of recipe categories"],
@@ -658,7 +615,7 @@
         }
       }
     },
-    "/own/{userId}": {
+    "/api/own/:userId": {
       "post": {
         "summary": "Add own recipe",
         "tags": ["Own"],
@@ -701,7 +658,7 @@
         }
       }
     },
-    "/own/{recipeId}": {
+    "/api/own/:recipeId": {
       "delete": {
         "summary": "Delete own recipe",
         "tags": ["Own"],
@@ -787,7 +744,7 @@
         }
       }
     },
-    "/favorite/{recipeId}": {
+    "/api/favorite/:recipeId": {
       "post": {
         "summary": "Add favorite recipe",
         "tags": ["Favorite"],
@@ -830,7 +787,7 @@
         }
       }
     },
-    "/favorite/{recipeID}": {
+    "/api/favorite/:recipeID": {
       "delete": {
         "summary": "Delete favorite recipe",
         "tags": ["Favorite"],
@@ -857,6 +814,38 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DeleteFavoriteRecipesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)"
+          },
+          "401": {
+            "description": "Unauthorized (invalid credentials)"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/popular-recipe": {
+      "get": {
+        "summary": "Get popular recipe",
+        "tags": ["Popular"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Popular recipe",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PopularRecipesResponse"
                 }
               }
             }
