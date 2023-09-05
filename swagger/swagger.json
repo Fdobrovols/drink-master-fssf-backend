@@ -11,7 +11,7 @@
       "description": "Local development server"
     },
     {
-      "url": "https://drink-master-db.onrender.com/api",
+      "url": "https://drink-master-fssf-backend.onrender.com/api",
       "description": "Deploy server"
     }
   ],
