@@ -2,24 +2,24 @@
   "openapi": "3.0.1",
   "info": {
     "version": "1.0.0",
-    "title": "Drink-Master API-Connections",
-    "description": "API documentation for Drink-Master application"
+    "title": "Drinks",
+    "description": "Application for Drinks (API - Documentation)"
   },
   "servers": [
     {
-      "url": "http://localhost:3000",
+      "url": "http://localhost:3000/api",
       "description": "Local development server"
     },
     {
-      "url": "https://drink-master-fssf-backend.onrender.com",
+      "url": "https://drink-master-fssf-backend.onrender.com/api",
       "description": "Deploy server"
     }
   ],
   "paths": {
-    "/api/auth/signup": {
+    "/users/signup": {
       "post": {
         "summary": "User registration",
-        "tags": ["Auth"],
+        "tags": ["Authentication"],
         "requestBody": {
           "description": "User registration data",
           "required": true,
@@ -54,10 +54,10 @@
         }
       }
     },
-    "/api/auth/signin": {
+    "/users/signin": {
       "post": {
         "summary": "User login",
-        "tags": ["Auth"],
+        "tags": ["Authentication"],
         "requestBody": {
           "description": "User login data",
           "required": true,
@@ -89,10 +89,10 @@
         }
       }
     },
-    "/api/auth/signout": {
+    "/users/signout": {
       "post": {
         "summary": "User signout",
-        "tags": ["Auth"],
+        "tags": ["Authentication"],
         "security": [
           {
             "Bearer": []
@@ -112,10 +112,10 @@
         }
       }
     },
-    "/api/auth/current": {
+    "/users/current": {
       "get": {
         "summary": "Current User",
-        "tags": ["Auth"],
+        "tags": ["Authentication"],
         "security": [
           {
             "Bearer": []
@@ -141,7 +141,50 @@
         }
       }
     },
-    "/api/subscribe": {
+    "/users/update": {
+      "patch": {
+        "summary": "Update User",
+        "tags": ["Authentication"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "User new name and avatar",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)"
+          },
+          "401": {
+            "description": "Unauthorized (invalid credentials)"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/subscribe": {
       "post": {
         "summary": "Subscribe",
         "tags": ["Subscribe"],
@@ -181,7 +224,7 @@
         }
       }
     },
-    "/api/recipes/main-page": {
+    "/recipes/main-page": {
       "get": {
         "summary": "Get recipes or category",
         "tags": ["Recipe"],
@@ -190,17 +233,6 @@
             "Bearer": []
           }
         ],
-        "requestBody": {
-          "description": "Categories",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/MainPageRecipeRequest"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Recipe information",
@@ -221,7 +253,7 @@
         }
       }
     },
-    "/api/recipes/:id:": {
+    "/recipes/{recipeId}:": {
       "get": {
         "summary": "Get one recipe",
         "tags": ["Recipe"],
@@ -261,33 +293,222 @@
         }
       }
     },
-    "/api/search": {
+    "/search": {
       "get": {
-        "summary": "Search recipes by name, category, ingredient",
+        "summary": "Search recipes by name, category, ingredient with pagination",
         "tags": ["Recipe"],
         "security": [
           {
             "Bearer": []
           }
         ],
-        "requestBody": {
-          "description": "drink or category or ingredient or all",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SearchRequest"
-              }
-            }
+        "parameters": [
+          {
+            "in": "query",
+            "name": "drink",
+            "schema": {
+              "type": "string",
+              "example": "Affair"
+            },
+
+            "description": "Name of the drink to search"
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "Ordinary Drink",
+                "Cocktail",
+                "Shake",
+                "Other/Unknown",
+                "Cocoa",
+                "Shot",
+                "Coffee/Tea",
+                "Homemade",
+                "Liqueur",
+                "Punch/Party Drink",
+                "Beer",
+                "Soft Drink"
+              ],
+              "example": "Ordinary Drink",
+              "description": "Select a category to search"
+            },
+
+            "description": "Category of the drink to search"
+          },
+          {
+            "in": "query",
+            "name": "ingredients",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "Light rum",
+                "Applejack",
+                "Gin",
+                "Dark rum",
+                "Sweet Vermouth",
+                "Strawberry schnapps",
+                "Scotch",
+                "Apricot brandy",
+                "Triple sec",
+                "Southern Comfort",
+                "Orange bitters",
+                "Brandy",
+                "Lemon vodka",
+                "Blended whiskey",
+                "Dry Vermouth",
+                "Amaretto",
+                "Tea",
+                "Champagne",
+                "Coffee liqueur",
+                "Bourbon",
+                "Tequila",
+                "Vodka",
+                "Añejo rum",
+                "Bitters",
+                "Sugar",
+                "Kahlua",
+                "demerara Sugar",
+                "Dubonnet Rouge",
+                "Watermelon",
+                "Lime juice",
+                "Irish whiskey",
+                "Apple brandy",
+                "Carbonated water",
+                "Cherry brandy",
+                "Creme de Cacao",
+                "Grenadine",
+                "Port",
+                "Coffee brandy",
+                "Red wine",
+                "Rum",
+                "Grapefruit juice",
+                "Ricard",
+                "Sherry",
+                "Cognac",
+                "Sloe gin",
+                "Apple juice",
+                "Pineapple juice",
+                "Lemon juice",
+                "Sugar syrup",
+                "Milk",
+                "Strawberries",
+                "Chocolate syrup",
+                "Yoghurt",
+                "Mango",
+                "Ginger",
+                "Lime",
+                "Cantaloupe",
+                "Berries",
+                "Grapes",
+                "Kiwi",
+                "Tomato juice",
+                "Cocoa powder",
+                "Chocolate",
+                "Heavy cream",
+                "Galliano",
+                "Peach Vodka",
+                "Ouzo",
+                "Coffee",
+                "Spiced rum",
+                "Water",
+                "Espresso",
+                "Angelica root",
+                "Orange",
+                "Cranberries",
+                "Johnnie Walker",
+                "Apple cider",
+                "Everclear",
+                "Cranberry juice",
+                "Egg yolk",
+                "Egg",
+                "Grape juice",
+                "Peach nectar",
+                "Lemon",
+                "Firewater",
+                "Lemonade",
+                "Lager",
+                "Whiskey",
+                "Absolut Citron",
+                "Pisco",
+                "Irish cream",
+                "Ale",
+                "Chocolate liqueur",
+                "Midori melon liqueur",
+                "Sambuca",
+                "Cider",
+                "Sprite",
+                "7-Up",
+                "Blackberry brandy",
+                "Peppermint schnapps",
+                "Creme de Cassis"
+              ],
+              "example": "Strawberry schnapps"
+            },
+
+            "description": "Ingredients of the drink to search"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            },
+
+            "description": "Page number for pagination"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "example": 10
+            },
+            "description": "Number of results per page "
           }
-        },
+        ],
         "responses": {
           "200": {
-            "description": "Search recipes is successfully",
+            "description": "Search recipes is successful",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request parameters)"
+          },
+          "401": {
+            "description": "Unauthorized (invalid credentials)"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/popular-recipe": {
+      "get": {
+        "summary": "Get popular recipe",
+        "tags": ["Recipe"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Popular recipe",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PopularRecipesResponse"
                 }
               }
             }
@@ -304,10 +525,10 @@
         }
       }
     },
-    "/api/categories": {
+    "/recipes": {
       "get": {
         "summary": "Get categories list",
-        "tags": ["DataLists"],
+        "tags": ["List of recipe categories"],
         "description": "Get all categories",
         "security": [
           {
@@ -334,10 +555,10 @@
         }
       }
     },
-    "/api/ingredients": {
+    "/ingredients": {
       "get": {
         "summary": "Get ingredients list",
-        "tags": ["DataLists"],
+        "tags": ["Recipes by ingredients"],
         "description": "Get all ingredients",
         "security": [
           {
@@ -364,10 +585,10 @@
         }
       }
     },
-    "/api/glass": {
+    "/glass": {
       "get": {
         "summary": "Get glass list",
-        "tags": ["DataLists"],
+        "tags": ["List of containers for serving"],
         "description": "Get all glass",
         "security": [
           {
@@ -394,7 +615,7 @@
         }
       }
     },
-    "/api/own": {
+    "/own": {
       "get": {
         "summary": "Get all own recipes",
         "tags": ["Own"],
@@ -437,7 +658,7 @@
         }
       }
     },
-    "/api/own/:userId": {
+    "/own/{userId}": {
       "post": {
         "summary": "Add own recipe",
         "tags": ["Own"],
@@ -480,7 +701,7 @@
         }
       }
     },
-    "/api/own/:recipeId": {
+    "/own/{recipeId}": {
       "delete": {
         "summary": "Delete own recipe",
         "tags": ["Own"],
@@ -523,7 +744,7 @@
         }
       }
     },
-    "/api/favorite": {
+    "/favorite": {
       "get": {
         "summary": "Get all favorite recipes",
         "tags": ["Favorite"],
@@ -566,7 +787,7 @@
         }
       }
     },
-    "/api/favorite/:recipeId": {
+    "/favorite/{recipeId}": {
       "post": {
         "summary": "Add favorite recipe",
         "tags": ["Favorite"],
@@ -609,7 +830,7 @@
         }
       }
     },
-    "/api/favorite/:recipeID": {
+    "/favorite/{recipeID}": {
       "delete": {
         "summary": "Delete favorite recipe",
         "tags": ["Favorite"],
@@ -636,38 +857,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DeleteFavoriteRecipesResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request (invalid request body)"
-          },
-          "401": {
-            "description": "Unauthorized (invalid credentials)"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/api/popular-recipe": {
-      "get": {
-        "summary": "Get popular recipe",
-        "tags": ["Popular"],
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Popular recipe",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PopularRecipesResponse"
                 }
               }
             }
@@ -788,6 +977,32 @@
           }
         }
       },
+      "UpdateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "avatarURL": {
+            "type": "URL",
+            "example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689167139/cocktails-v1/drinks/Affair.jpg"
+          }
+        }
+      },
+      "UpdateResponse": {
+        "type": "object",
+        "properties": {
+          "avatarURL": {
+            "type": "URL",
+            "example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689167139/cocktails-v1/drinks/Affair.jpg"
+          },
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          }
+        }
+      },
       "SingoutResponse": {
         "type": "object",
         "properties": {
@@ -813,24 +1028,6 @@
           "message": {
             "type": "string",
             "example": "You are subscribed to the newsletter from DrinkMaster"
-          }
-        }
-      },
-      "MainPageRecipeRequest": {
-        "type": "object",
-        "properties": {
-          "category": {
-            "type": "array",
-            "description": "Array of recipe categories",
-            "items": {
-              "type": "string",
-              "example": [
-                "Cocktail",
-                "Ordinary Drink",
-                "Shake",
-                "Other/Unknown"
-              ]
-            }
           }
         }
       },
@@ -1084,141 +1281,174 @@
           }
         }
       },
-      "SearchRequest": {
-        "type": "object",
-
-        "properties": {
-          "drink": {
-            "type": "string",
-            "example": "Affair"
-          },
-          "category": {
-            "type": "string",
-            "example": "Ordinary Drink"
-          },
-          "ingredients": {
-            "type": "string",
-            "example": "Strawberry schnapps"
-          }
-        }
-      },
       "SearchResponse": {
-        "type": "array",
-        "description": "Recipes by name, category, ingredient",
-        "items": {
-          "type": "object",
-          "properties": {
-            "_id": {
-              "type": "string",
-              "example": "639b6de9ff77d221f190c51e"
-            },
-            "drink": {
-              "type": "string",
-              "example": "Affair"
-            },
-            "drinkAlternate": {
-              "type": "string",
-              "example": null
-            },
-            "tags": {
-              "type": "string",
-              "example": null
-            },
-            "video": {
-              "type": "string",
-              "example": null
-            },
-            "category": {
-              "type": "string",
-              "example": "Ordinary Drink"
-            },
-            "IBA": {
-              "type": "string",
-              "example": null
-            },
-            "alcoholic": {
-              "type": "string",
-              "example": "Alcoholic"
-            },
-            "glass": {
-              "type": "string",
-              "example": "Highball glass"
-            },
-            "instructions": {
-              "type": "string",
-              "example": "Pour schnapps, orange juice, and cranberry juice over ice in a highball glass. Top with club soda and serve."
-            },
-            "instructionsES": {
-              "type": "string",
-              "example": "Vierta el Schnapps, el jugo de naranja y el jugo de arándano sobre hielo en un vaso alto. Complete con el agua carbonatada y sirva."
-            },
-            "instructionsDE": {
-              "type": "string",
-              "example": "Gießen Sie Schnaps, Orangensaft und Cranberrysaft über Eis in ein Highball-Glas. Mit Club-Soda überziehen und servieren."
-            },
-            "instructionsFR": {
-              "type": "string",
-              "example": "Verser le schnaps, le jus d'orange et le jus de canneberge sur de la glace dans un verre highball. Garnir de club soda et servir."
-            },
-            "instructionsIT": {
-              "type": "string",
-              "example": "Versare la grappa, il succo d'arancia e il succo di mirtillo rosso sul ghiaccio in un bicchiere highball. Completare con la soda club e servire."
-            },
-            "instructionsRU": {
-              "type": "string",
-              "example": "Налейте шнапс, апельсиновый сок и клюквенный сок со льдом в стакан хайбол. Долейте содовой и подавайте."
-            },
-            "instructionsPL": {
-              "type": "string",
-              "example": "Wlej sznaps, sok pomarańczowy i sok żurawinowy do lodu w szklance typu highball. Na wierzch z sodą klubową i podawaj."
-            },
-            "instructionsUK": {
-              "type": "string",
-              "example": "Розлийте шнапс, апельсиновий сік і журавлинний сік з льодом у келих хайбол. Зверху полийте газованою водою та подавайте."
-            },
-            "drinkThumb": {
-              "type": "string",
-              "example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689167139/cocktails-v1/drinks/Affair.jpg"
-            },
-            "ingredients": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "title": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "639b6de9ff77d221f190c51e"
+                },
+                "drink": {
+                  "type": "string",
+                  "example": "Affair"
+                },
+                "drinkAlternate": {
+                  "type": "string",
+                  "example": null
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {
                     "type": "string",
-                    "example": "Strawberry schnapps"
-                  },
-                  "measure": {
-                    "type": "string",
-                    "example": "2 oz"
-                  },
-                  "ingredientThumb": {
-                    "type": "string",
-                    "example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169610/cocktails-v1/ingredient/Strawberry%20schnapps.png"
-                  },
-                  "thumb-medium": {
-                    "type": "string",
-                    "example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169610/cocktails-v1/ingredient/Strawberry%20schnapps-Medium.png"
-                  },
-                  "thumb-small": {
-                    "type": "string",
-                    "example": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169610/cocktails-v1/ingredient/Strawberry%20schnapps-Small.png"
+                    "example": "IBA,Classic,Christmas,Alcoholic"
                   }
+                },
+                "video": {
+                  "type": "string",
+                  "example": null
+                },
+                "category": {
+                  "type": "string",
+                  "example": "Ordinary Drink"
+                },
+                "IBA": {
+                  "type": "string",
+                  "example": "Unforgettables"
+                },
+                "alcoholic": {
+                  "type": "string",
+                  "example": "Alcoholic"
+                },
+                "glass": {
+                  "type": "string",
+                  "example": "Highball glass"
+                },
+                "instructions": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "Pour schnapps, orange juice, and cranberry juice over ice in a highball glass. Top with club soda and serve."
+                  }
+                },
+                "instructionsES": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "Vierta el Schnapps, el jugo de naranja y el jugo de arándano sobre hielo en un vaso alto. Complete con el agua carbonatada y sirva."
+                  }
+                },
+                "instructionsDE": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "Gießen Sie Schnaps, Orangensaft und Cranberrysaft über Eis in ein Highball-Glas. Mit Club-Soda überziehen und servieren."
+                  }
+                },
+                "instructionsFR": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "Verser le schnaps, le jus d'orange et le jus de canneberge sur de la glace dans un verre highball. Garnir de club soda et servir."
+                  }
+                },
+                "instructionsIT": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "Versare la grappa, il succo d'arancia e il succo di mirtillo rosso sul ghiaccio in un bicchiere highball. Completare con la soda club e servire."
+                  }
+                },
+                "instructionsRU": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "Налейте шнапс, апельсиновый сок и клюквенный сок со льдом в стакан хайбол. Долейте содовой и подавайте."
+                  }
+                },
+                "instructionsPL": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "Wlej sznaps, sok pomarańczowy i sok żurawinowy do lodu w szklance typu highball. Na wierzch z sodą klubową i podawaj."
+                  }
+                },
+                "instructionsUK": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "Розлийте шнапс, апельсиновий сік і журавлинний сік з льодом у келих хайбол. Зверху полийте газованою водою та подавайте."
+                  }
+                },
+                "drinkThumb": {
+                  "type": "string",
+                  "example": "https://res.cloudinary.com/dec1shvoo/image/upload/v1689167139/cocktails-v1/drinks/Affair.jpg"
+                },
+                "ingredients": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "example": "64f599975a779f9c5537175a"
+                      },
+                      "title": {
+                        "type": "string",
+                        "example": "Strawberry schnapps"
+                      },
+                      "measure": {
+                        "type": "string",
+                        "example": "2 oz"
+                      },
+                      "ingredientThumb": {
+                        "type": "string",
+                        "example": "https://res.cloudinary.com/dec1shvoo/image/upload/v1689169610/cocktails-v1/ingredient/Strawberry%20schnapps.png"
+                      },
+                      "thumb-medium": {
+                        "type": "string",
+                        "example": "https://res.cloudinary.com/dec1shvoo/image/upload/v1689169610/cocktails-v1/ingredient/Strawberry%20schnapps-Medium.png"
+                      },
+                      "thumb-small": {
+                        "type": "string",
+                        "example": "https://res.cloudinary.com/dec1shvoo/image/upload/v1689169610/cocktails-v1/ingredient/Strawberry%20schnapps-Small.png"
+                      }
+                    }
+                  }
+                },
+                "favorites": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "64ecf658d0b79426db3393e3"
+                  }
+                },
+                "own": {
+                  "type": "string",
+                  "example": "64ecf658d0b79426db3393e3"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "example": "2022-08-29T06:17:48.127Z"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "example": "2023-09-03T21:19:57.278Z"
                 }
               }
-            },
-            "favorites": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "example": "64ecf658d0b79426db3393e3"
-              }
-            },
-            "own": {
-              "type": "string",
-              "example": "64ecf658d0b79426db3393e3"
             }
+          },
+          "totalResults": {
+            "type": "integer",
+            "example": 1
+          },
+          "totalPages": {
+            "type": "integer",
+            "example": 1
           }
         }
       },
