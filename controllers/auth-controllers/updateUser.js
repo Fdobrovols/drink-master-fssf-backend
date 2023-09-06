@@ -32,10 +32,8 @@ const updateUser = async (req, res) => {
     await fs.unlink(tempUpload);
 
     if (name !== userName) {
-      console.log("update avatar and name");
       user = await User.findByIdAndUpdate(_id, { avatarURL, name }, { new: true });
     } else {
-      console.log("update only avatar");
       user = await User.findByIdAndUpdate(_id, { avatarURL }, { new: true });
     }
 
