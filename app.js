@@ -11,6 +11,7 @@ import { glassRouter } from "./routes/api/glass-router/index.js";
 import { ownRouter } from "./routes/api/own-router/index.js";
 import { favoriteRouter } from "./routes/api/favorite-router/index.js";
 import { popularRecipeRouter } from "./routes/api/popular-recipe-router/index.js";
+import fs from "fs";
 
 const app = express();
 
@@ -37,6 +38,10 @@ app.use((req, res) => {
 });
 
 app.use((err, req, res, next) => {
+  if (req.file) {
+    const { path } = req.file;
+    fs.unlinkSync(path);
+  }
   const { status = 500, message = "Server error" } = err;
   res.status(status).json({ message });
 });
