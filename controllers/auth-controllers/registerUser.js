@@ -27,7 +27,7 @@ const registerUser = async (req, res) => {
   });
 
   const payload = { id: newUser._id };
-  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "5m" });
+  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "23h" });
 
   newUser.token = token;
   await newUser.save();
